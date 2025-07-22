@@ -12,38 +12,14 @@ A Chrome extension that uses Google's Gemini Flash 2.5 AI to detect phishing web
 
 ## Setup Instructions
 
-### 1. Server Setup
-
-1. Navigate to the server directory:
-   \`\`\`bash
-   cd server
-   \`\`\`
-
-2. Install dependencies:
-   \`\`\`bash
-   npm install
-   \`\`\`
-
-3. Set up your Google AI API key:
-   \`\`\`bash
-   export GOOGLE_GENERATIVE_AI_API_KEY="your-api-key-here"
-   \`\`\`
-
-4. Start the server:
-   \`\`\`bash
-   npm start
-   \`\`\`
-
-The server will run on `http://localhost:3001`
-
-### 2. Chrome Extension Setup
+### 1. Chrome Extension Setup
 
 1. Open Chrome and go to `chrome://extensions/`
 2. Enable "Developer mode" in the top right
 3. Click "Load unpacked" and select the extension folder
 4. The extension icon should appear in your toolbar
 
-### 3. Usage
+### 2. Usage
 
 1. Navigate to any website
 2. Click the Phishing Detector extension icon
