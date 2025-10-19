@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "Phishing Detector",
-  "version": "1.0",
-  "description": "AI-powered phishing detection using Gemini",
+  "version": "2.0",
+  "description": "AI-powered phishing detection with email header analysis (DKIM, SPF, DMARC)",
   "permissions": [
     "activeTab",
     "storage",

@@ -1,125 +1,267 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="utf-8">
-  <style>
-    body {
-      width: 350px;
-      padding: 20px;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    }
-    .header {
-      display: flex;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-    .logo {
-      width: 24px;
-      height: 24px;
-      margin-right: 10px;
-      background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
-      border-radius: 50%;
-    }
-    .title {
-      font-size: 18px;
-      font-weight: 600;
-      color: #333;
-    }
-    .status {
-      padding: 15px;
-      border-radius: 8px;
-      margin-bottom: 15px;
-      text-align: center;
-    }
-    .safe {
-      background: #d4edda;
-      color: #155724;
-      border: 1px solid #c3e6cb;
-    }
-    .warning {
-      background: #fff3cd;
-      color: #856404;
-      border: 1px solid #ffeaa7;
-    }
-    .danger {
-      background: #f8d7da;
-      color: #721c24;
-      border: 1px solid #f5c6cb;
-    }
-    .score {
-      font-size: 24px;
-      font-weight: bold;
-      margin-bottom: 5px;
-    }
-    .explanation {
-      background: #f8f9fa;
-      padding: 12px;
-      border-radius: 6px;
-      border-left: 4px solid #007bff;
-      font-size: 14px;
-      line-height: 1.4;
-    }
-    .loading {
-      text-align: center;
-      padding: 20px;
-    }
-    .spinner {
-      border: 3px solid #f3f3f3;
-      border-top: 3px solid #007bff;
-      border-radius: 50%;
-      width: 30px;
-      height: 30px;
-      animation: spin 1s linear infinite;
-      margin: 0 auto 10px;
-    }
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-    .analyze-btn {
-      width: 100%;
-      padding: 12px;
-      background: #007bff;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      font-size: 14px;
-      cursor: pointer;
-      margin-top: 10px;
-    }
-    .analyze-btn:hover {
-      background: #0056b3;
-    }
-    .analyze-btn:disabled {
-      background: #6c757d;
-      cursor: not-allowed;
-    }
-  </style>
-</head>
-<body>
-  <div class="header">
-    <div class="logo"></div>
-    <div class="title">Phishing Detector</div>
-  </div>
-  
-  <div id="content">
-    <div class="loading" id="loading" style="display: none;">
-      <div class="spinner"></div>
-      <div>Analyzing page...</div>
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      body {
+        width: 400px;
+        padding: 20px;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          sans-serif;
+      }
+      .header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+      .logo {
+        width: 24px;
+        height: 24px;
+        margin-right: 10px;
+        background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+        border-radius: 50%;
+      }
+      .title {
+        font-size: 18px;
+        font-weight: 600;
+        color: #333;
+      }
+      .tabs {
+        display: flex;
+        gap: 5px;
+        margin-bottom: 20px;
+        border-bottom: 2px solid #e0e0e0;
+      }
+      .tab {
+        padding: 10px 20px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 14px;
+        color: #666;
+        border-bottom: 2px solid transparent;
+        margin-bottom: -2px;
+        transition: all 0.3s;
+      }
+      .tab:hover {
+        color: #007bff;
+      }
+      .tab.active {
+        color: #007bff;
+        border-bottom-color: #007bff;
+        font-weight: 600;
+      }
+      .tab-content {
+        display: none;
+      }
+      .tab-content.active {
+        display: block;
+      }
+      .status {
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 15px;
+        text-align: center;
+      }
+      .safe {
+        background: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+      }
+      .warning {
+        background: #fff3cd;
+        color: #856404;
+        border: 1px solid #ffeaa7;
+      }
+      .danger {
+        background: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+      }
+      .score {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+      .explanation {
+        background: #f8f9fa;
+        padding: 12px;
+        border-radius: 6px;
+        border-left: 4px solid #007bff;
+        font-size: 13px;
+        line-height: 1.4;
+        margin-bottom: 10px;
+      }
+      .loading {
+        text-align: center;
+        padding: 20px;
+      }
+      .spinner {
+        border: 3px solid #f3f3f3;
+        border-top: 3px solid #007bff;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        animation: spin 1s linear infinite;
+        margin: 0 auto 10px;
+      }
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+      .analyze-btn {
+        width: 100%;
+        padding: 12px;
+        background: #007bff;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-size: 14px;
+        cursor: pointer;
+        margin-top: 10px;
+      }
+      .analyze-btn:hover {
+        background: #0056b3;
+      }
+      .analyze-btn:disabled {
+        background: #6c757d;
+        cursor: not-allowed;
+      }
+      .header-input {
+        width: 100%;
+        min-height: 150px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        font-family: "Courier New", monospace;
+        font-size: 12px;
+        margin-bottom: 10px;
+        resize: vertical;
+      }
+      .info-box {
+        background: #e3f2fd;
+        padding: 10px;
+        border-radius: 6px;
+        font-size: 12px;
+        margin-bottom: 10px;
+        color: #1565c0;
+      }
+      .detail-section {
+        margin-top: 10px;
+        font-size: 12px;
+      }
+      .detail-item {
+        padding: 8px;
+        margin-bottom: 5px;
+        border-radius: 4px;
+        background: #f8f9fa;
+      }
+      .detail-label {
+        font-weight: 600;
+        color: #495057;
+        margin-bottom: 3px;
+      }
+      .detail-value {
+        color: #6c757d;
+      }
+      .badge {
+        display: inline-block;
+        padding: 3px 8px;
+        border-radius: 12px;
+        font-size: 11px;
+        font-weight: 600;
+        margin-right: 5px;
+      }
+      .badge-success {
+        background: #d4edda;
+        color: #155724;
+      }
+      .badge-warning {
+        background: #fff3cd;
+        color: #856404;
+      }
+      .badge-danger {
+        background: #f8d7da;
+        color: #721c24;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <div class="logo"></div>
+      <div class="title">Phishing Detector</div>
     </div>
-    
-    <div id="result" style="display: none;">
-      <div id="status" class="status">
-        <div class="score" id="score"></div>
-        <div id="status-text"></div>
-      </div>
-      
-      <div class="explanation" id="explanation"></div>
-    </div>
-    
-    <button class="analyze-btn" id="analyzeBtn">Analyze Current Page</button>
-  </div>
 
-  <script src="popup.js"></script>
-</body>
+    <div class="tabs">
+      <button class="tab active" data-tab="page">Page Analysis</button>
+      <button class="tab" data-tab="email">Email Headers</button>
+    </div>
+
+    <!-- Page Analysis Tab -->
+    <div id="page-tab" class="tab-content active">
+      <div class="loading" id="loading" style="display: none">
+        <div class="spinner"></div>
+        <div>Analyzing page...</div>
+      </div>
+
+      <div id="result" style="display: none">
+        <div id="status" class="status">
+          <div class="score" id="score"></div>
+          <div id="status-text"></div>
+        </div>
+
+        <div class="explanation" id="explanation"></div>
+      </div>
+
+      <button class="analyze-btn" id="analyzeBtn">Analyze Current Page</button>
+    </div>
+
+    <!-- Email Headers Tab -->
+    <div id="email-tab" class="tab-content">
+      <div class="info-box">
+        📧 Paste raw email headers to check for spoofing indicators (DKIM, SPF,
+        DMARC, sender mismatches)
+      </div>
+
+      <textarea
+        class="header-input"
+        id="headerInput"
+        placeholder="Paste email headers here...
+
+Example:
+From: sender@example.com
+To: recipient@example.com
+Subject: Important Message
+Date: Mon, 1 Jan 2024 12:00:00 +0000
+DKIM-Signature: v=1; a=rsa-sha256; ...
+Authentication-Results: spf=pass; dkim=pass; dmarc=pass"
+      ></textarea>
+
+      <button class="analyze-btn" id="analyzeEmailBtn">
+        Analyze Email Headers
+      </button>
+
+      <div class="loading" id="email-loading" style="display: none">
+        <div class="spinner"></div>
+        <div>Analyzing headers...</div>
+      </div>
+
+      <div id="email-result" style="display: none">
+        <div id="email-status" class="status">
+          <div class="score" id="email-score"></div>
+          <div id="email-status-text"></div>
+        </div>
+
+        <div class="explanation" id="email-summary"></div>
+
+        <div class="detail-section" id="email-details"></div>
+      </div>
+    </div>
+
+    <script src="popup.js"></script>
+  </body>
 </html>
